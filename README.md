@@ -22,6 +22,12 @@ node scripts/verificar-site.mjs
 
 A futura plataforma com login, agendamentos e pagamentos **não está implementada nesta demo estática**. Nunca adicione chaves, registros clínicos ou dados pessoais ao repositório público.
 
+## Etapa 2 — Base da plataforma privada
+
+Código em [`plataforma/`](plataforma/README.md): Next.js, Supabase SSR, cadastro, login, recuperação de senha, papéis de usuário, políticas RLS e exigência de MFA administrativo. **É uma base de código: não há Supabase configurado, banco remoto criado ou portal privado implantado em produção.**
+
+O GitHub Pages continua publicando somente os arquivos HTML estáticos da raiz. A escolha dos serviços foi movida para cima, imediatamente após o hero. Veja [ETAPA_2.md](ETAPA_2.md) e [a CI do Next.js](.github/workflows/plataforma-etapa2.yml).
+
 ## Conteúdo
 
 - `index.html`: landing page premium com imagens ilustrativas incorporadas

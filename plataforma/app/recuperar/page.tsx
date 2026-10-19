@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Script from "next/script";
+import TurnstileField from "../../components/turnstile-field";
 import { requestPasswordReset } from "../actions";
 
 const messages: Record<string, string> = {
@@ -23,11 +23,11 @@ export default async function Recover({ searchParams }: { searchParams: Promise<
     {!ready
       ? <p className="notice">A recuperação de senha será disponibilizada após configurar o Supabase, CAPTCHA e serviço de e-mail.</p>
       : <>
-          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
+    
           <form action={requestPasswordReset}>
             <div className="field"><label htmlFor="email">E-mail</label><input id="email" name="email" type="email" required maxLength={254} autoComplete="email"/></div>
-            <div className="field"><div className="cf-turnstile" data-sitekey={siteKey} aria-label="Verificação de segurança" /></div>
-            <button className="btn" type="submit">Solicitar redefinição ↗</button>
+            <TurnstileField siteKey={siteKey!} submitLabel="Solicitar redefinição ↗" />
+            
           </form>
         </>}
     <div className="links"><Link href="/entrar">Voltar ao login</Link></div>

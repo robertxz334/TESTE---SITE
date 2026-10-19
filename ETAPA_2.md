@@ -19,6 +19,16 @@ A área para escolher o serviço, anteriormente próxima ao rodapé, foi movida 
 - Senhas gerenciadas pelo provedor (nunca armazenadas em tabelas do aplicativo);
 - Sem coleta de dados clínicos, diagnóstico ou prontuário.
 
+## Verificações executadas
+
+- GitHub Actions — `node 22 / npm install`: **sucesso**.
+- GitHub Actions — `npm run typecheck`: **sucesso**.
+- GitHub Actions — `npm run build` (Next.js): **sucesso**.
+- Verificação de HTML e links internos da demonstração: **sucesso**.
+- GitHub Pages — publicação da versão pública: **sucesso**.
+
+Resultados referentes ao commit `4c9789159ac3f1e39287020bf96d3a41599eb387`; veja a aba Actions para os registros. **Não foram executados testes funcionais de autenticação, ensaios de RLS em Supabase real nem auditoria completa de segurança.**
+
 ## Limites da entrega
 **A migração ainda não foi aplicada a um projeto Supabase nesta conversa:** nenhum projeto/banco foi conectado. Não foram executados testes de integração com cadastro/login real. A aplicação Next.js também ainda não foi colocada no ar, pois GitHub Pages é estático.
 

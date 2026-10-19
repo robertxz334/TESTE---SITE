@@ -8,6 +8,11 @@ function value(form: FormData, key: string, limit = 250): string {
   const v = form.get(key);
   return typeof v === "string" ? v.trim().slice(0, limit) : "";
 }
+// Senhas não devem ser normalizadas, cortadas ou ter espaços removidos.
+function secretValue(form: FormData, key: string): string {
+  const input = form.get(key);
+  return typeof input === "string" ? input : "";
+}
 function goodEmail(s: string) {
   return s.length < 255 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 }
@@ -36,8 +41,8 @@ export async function register(form: FormData) {
   const email = value(form, "email").toLowerCase();
   const name = value(form, "nome", 90);
   const phone = value(form, "telefone", 24);
-  const password = value(form, "senha", 160);
-  const confirm = value(form, "confirmar", 160);
+  const password = secretValue(form, "senha");
+  const confirm = secretValue(form, "confirmar");
   if (!goodEmail(email) || name.length < 2 || (phone && !/^\+?[0-9() .-]{8,24}$/.test(phone))
     || !goodPassword(password) || password !== confirm) destination("/cadastro", "invalidos");
   const supabase = await createClient();
@@ -56,7 +61,7 @@ export async function register(form: FormData) {
 export async function signIn(form: FormData) {
   if (!supabaseConfigured()) destination("/entrar", "config");
   const email = value(form, "email").toLowerCase();
-  const password = value(form, "senha", 160);
+  const password = secretValue(form, "senha");
   if (!goodEmail(email) || !password) destination("/entrar", "credenciais");
   const supabase = await createClient();
   const { error, data } = await supabase.auth.signInWithPassword({ email, password });
@@ -90,8 +95,8 @@ export async function requestPasswordReset(form: FormData) {
 
 export async function updatePassword(form: FormData) {
   const { supabase } = await requireUser();
-  const password = value(form, "senha", 160);
-  const confirm = value(form, "confirmar", 160);
+  const password = secretValue(form, "senha");
+  const confirm = secretValue(form, "confirmar");
   if (!goodPassword(password) || password !== confirm) destination("/redefinir-senha", "invalidos");
   const { error } = await supabase.auth.updateUser({ password });
   if (error) destination("/redefinir-senha", "falha");

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Script from "next/script";
+import TurnstileField from "../../components/turnstile-field";
 import { signIn } from "../actions";
 
 const messages: Record<string, string> = {
@@ -28,13 +28,12 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
     {!ready
       ? <p className="notice">O login será disponibilizado após configurar o Supabase e o CAPTCHA, e validar a aplicação.</p>
       : <>
-          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
+    
           <form action={signIn}>
             <div className="field"><label htmlFor="email">E-mail</label><input id="email" type="email" name="email" autoComplete="email" required maxLength={254}/></div>
             <div className="field"><label htmlFor="senha">Senha</label><input id="senha" name="senha" type="password" autoComplete="current-password" required/></div>
-            <div className="field"><div className="cf-turnstile" data-sitekey={siteKey} aria-label="Verificação de segurança" /></div>
-            <p className="hint">Aguarde a verificação de segurança aparecer e concluir antes de entrar. Caso ela não carregue, verifique bloqueadores de conteúdo do navegador.</p>
-            <button className="btn" type="submit">Entrar com segurança →</button>
+            <TurnstileField siteKey={siteKey!} submitLabel="Entrar com segurança →" />
+            
           </form>
         </>}
     <div className="links"><Link href="/recuperar">Esqueci minha senha</Link><Link href="/cadastro">Criar conta</Link></div>

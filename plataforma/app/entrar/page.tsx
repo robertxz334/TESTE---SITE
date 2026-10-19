@@ -4,7 +4,8 @@ import { signIn } from "../actions";
 
 const messages: Record<string, string> = {
   config: "A autenticação ainda não está configurada.",
-  captcha: "Conclua a verificação de segurança antes de entrar.",
+  captcha: "A verificação de segurança não foi aceita. Aguarde o Turnstile carregar e tente novamente.",
+  limite: "Muitas tentativas de acesso. Aguarde alguns minutos antes de tentar novamente.",
   sessao: "Entre na sua conta para acessar a área reservada.",
   credenciais: "Não foi possível entrar. Confira as credenciais ou a confirmação do e-mail.",
   "verifique-email": "Se o cadastro foi aceito, confirme o e-mail antes de entrar.",
@@ -32,6 +33,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
             <div className="field"><label htmlFor="email">E-mail</label><input id="email" type="email" name="email" autoComplete="email" required maxLength={254}/></div>
             <div className="field"><label htmlFor="senha">Senha</label><input id="senha" name="senha" type="password" autoComplete="current-password" required/></div>
             <div className="field"><div className="cf-turnstile" data-sitekey={siteKey} aria-label="Verificação de segurança" /></div>
+            <p className="hint">Aguarde a verificação de segurança aparecer e concluir antes de entrar. Caso ela não carregue, verifique bloqueadores de conteúdo do navegador.</p>
             <button className="btn" type="submit">Entrar com segurança →</button>
           </form>
         </>}

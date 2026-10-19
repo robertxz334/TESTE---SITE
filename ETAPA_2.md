@@ -30,12 +30,12 @@ A área para escolher o serviço, anteriormente próxima ao rodapé, foi movida 
 Resultados referentes ao commit `4c9789159ac3f1e39287020bf96d3a41599eb387`; veja a aba Actions para os registros. **Não foram executados testes funcionais de autenticação, ensaios de RLS em Supabase real nem auditoria completa de segurança.**
 
 ## Limites da entrega
-**A migração ainda não foi aplicada a um projeto Supabase nesta conversa:** nenhum projeto/banco foi conectado. Não foram executados testes de integração com cadastro/login real. A aplicação Next.js também ainda não foi colocada no ar, pois GitHub Pages é estático.
+**Atualização verificada em 18/10/2026 (horário de Brasília):** a migração `init_auth_profiles_roles_and_rls` foi aplicada com sucesso no Supabase `juliana-helmara-plataforma` (`rothqyoaxczmwzuhaovd`). Tabelas `profiles`, `user_roles` e `services` presentes, RLS ativado em todas, três serviços públicos cadastrados, quatro políticas criadas e nenhum alerta atual no Security Advisor. A função de ativação automática de RLS e a função do gatilho de usuários tiveram privilégios de EXECUTE limitados. O banco estava sem tabelas públicas de aplicação e sem usuários antes da migração. **Ainda não foram executados testes de integração de cadastro/login com contas fictícias**, nem foi implantada a aplicação Next.js; GitHub Pages continua hospedando apenas a demonstração estática.
 
 O repositório é público: **nunca incluir credenciais, dados pessoais ou backups nele**. Após receber um projeto Supabase autorizado, configurar Vercel e ativar validação, CAPTCHA e proteções de abuso. A integração com a psicóloga real requer sua revisão e aprovação.
 
 ## Próximos passos
 1. Validar build automático e testar visualmente a nova seção de escolha de serviço.
-2. Configurar Supabase e aplicar migração em ambiente de testes.
-3. Testar RLS, cadastro, login, MFA e recuperação de senha com contas exclusivamente fictícias.
+2. Concluído: projeto Supabase identificado, migração aplicada e estrutura/RLS revisadas (projeto marcado como produção; não adicionar usuários reais ainda).
+3. Pendente: configurar confirmação de e-mail, CAPTCHA e ambiente Next.js e testar RLS, cadastro, login, MFA e recuperação de senha com contas exclusivamente fictícias.
 4. Depois da validação da Etapa 2, iniciar Etapa 3 (área de cliente com agendamentos e pagamentos administrativos).

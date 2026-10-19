@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+type CookieWrite = { name: string; value: string; options?: Record<string, unknown> };
 import { NextResponse, type NextRequest } from "next/server";
 
 // Atualiza os cookies de sessão. A autorização REAL ocorre nas páginas e no banco.
@@ -11,10 +12,10 @@ export async function proxy(request: NextRequest) {
   const supabase = createServerClient(url, key, {
     cookies: {
       getAll() { return request.cookies.getAll(); },
-      setAll(values) {
+      setAll(values: CookieWrite[]) {
         values.forEach(({ name, value }) => request.cookies.set(name, value));
         response = NextResponse.next({ request });
-        values.forEach(({ name, value, options }) => response.cookies.set(name, value, options));
+        values.forEach(({ name, value, options }) => response.cookies.set(name, value, options as Parameters<typeof response.cookies.set>[2]));
       },
     },
   });

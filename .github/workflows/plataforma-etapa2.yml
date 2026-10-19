@@ -19,6 +19,8 @@ jobs:
           node-version: '22'
       - name: Instalar dependências
         run: npm install --no-audit --no-fund
+      - name: Verificar contratos de segurança
+        run: node --test scripts/security-contracts.test.mjs
       - name: Verificar tipos
         run: npm run typecheck
       - name: Compilar Next.js

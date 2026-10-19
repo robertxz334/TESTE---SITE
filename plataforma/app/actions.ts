@@ -59,12 +59,14 @@ export async function register(form: FormData) {
 }
 
 export async function signIn(form: FormData) {
-  if (!supabaseConfigured()) destination("/entrar", "config");
+  if (!supabaseConfigured() || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) destination("/entrar", "config");
+  const token = value(form, "cf-turnstile-response", 3000);
+  if (!token) destination("/entrar", "captcha");
   const email = value(form, "email").toLowerCase();
   const password = secretValue(form, "senha");
   if (!goodEmail(email) || !password) destination("/entrar", "credenciais");
   const supabase = await createClient();
-  const { error, data } = await supabase.auth.signInWithPassword({ email, password });
+  const { error, data } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken: token } });
   if (error || !data.user) destination("/entrar", "credenciais");
   const role = await getRole(supabase, data.user.id);
   if (role === "admin") redirect("/admin");
@@ -80,7 +82,9 @@ export async function signOut() {
 }
 
 export async function requestPasswordReset(form: FormData) {
-  if (!supabaseConfigured()) destination("/recuperar", "config");
+  if (!supabaseConfigured() || !process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) destination("/recuperar", "config");
+  const token = value(form, "cf-turnstile-response", 3000);
+  if (!token) destination("/recuperar", "captcha");
   const siteUrl = validSiteURL();
   if (!siteUrl) destination("/recuperar", "config");
   const email = value(form, "email").toLowerCase();
@@ -89,6 +93,7 @@ export async function requestPasswordReset(form: FormData) {
   // Não revelar se o e-mail existe.
   await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: siteUrl + "/auth/callback?next=/redefinir-senha",
+    captchaToken: token,
   });
   destination("/recuperar", "enviado");
 }

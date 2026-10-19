@@ -34,6 +34,14 @@ Resultados referentes ao commit `4c9789159ac3f1e39287020bf96d3a41599eb387`; veja
 
 O repositório é público: **nunca incluir credenciais, dados pessoais ou backups nele**. Após receber um projeto Supabase autorizado, configurar Vercel e ativar validação, CAPTCHA e proteções de abuso. A integração com a psicóloga real requer sua revisão e aprovação.
 
+## Avanço: autenticação e CAPTCHA (19/10/2026)
+
+- Revisados os privilégios de `anon` e `authenticated` no banco de dados: visitantes anônimos não podem ler `profiles` nem `user_roles`, e somente a tabela `services` expõe leitura pública, mediante política para registros ativos.
+- Corrigidos os fluxos Next.js para encaminhar o token Cloudflare Turnstile ao Supabase em **cadastro, login e recuperação de senha**.
+- Adicionados testes de contrato de CAPTCHA aos três fluxos, executados pelo GitHub Actions.
+- Criado [roteiro de ativação da autenticação](plataforma/AUTH_SETUP.md).
+- **Ainda pendente:** configurar Auth, e-mail e CAPTCHA no dashboard, hospedar aplicação Next.js (por exemplo Vercel), configurar URLs e executar testes funcionais com usuários de teste. Não foi ativado cadastro público.
+
 ## Próximos passos
 1. Validar build automático e testar visualmente a nova seção de escolha de serviço.
 2. Concluído: projeto Supabase identificado, migração aplicada e estrutura/RLS revisadas (projeto marcado como produção; não adicionar usuários reais ainda).

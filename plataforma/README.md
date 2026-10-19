@@ -10,6 +10,10 @@
 - `supabase/migrations/`: criação de perfis, papéis de acesso e lista pública de serviços, com RLS habilitada.
 - A versão estática original permanece inalterada, exceto pela posição da seleção de serviços na home.
 
+## Configuração de autenticação
+
+Siga [AUTH_SETUP.md](AUTH_SETUP.md) para configurar e-mail, CAPTCHA nos três fluxos (cadastro, login e recuperação), redirect URLs, ambiente Vercel e testes de segurança. Não habilite `ENABLE_REGISTRATION=true` antes da validação.
+
 ## Requisitos
 
 Node.js 22+, projeto Supabase com PostgreSQL e Supabase Auth. Projeto Vercel separado para hospedar o Next.js. **Nunca vincule dados pessoais reais à demo pública antes de aprovação técnica e profissional.**

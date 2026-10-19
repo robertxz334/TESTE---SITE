@@ -1,5 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
-type CookieWrite = { name: string; value: string; options?: Record<string, unknown> };
+type CookieWrite = { name: string; value: string; options?: unknown };
 import { NextResponse, type NextRequest } from "next/server";
 
 // Atualiza os cookies de sessão. A autorização REAL ocorre nas páginas e no banco.

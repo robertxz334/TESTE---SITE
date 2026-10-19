@@ -55,7 +55,7 @@ test("CAPTCHA é exigido em cadastro, login e recuperação", () => {
   assert.match(actions, /signInWithPassword\(\{ email, password, options: \{ captchaToken: token \} \}\)/);
   assert.match(actions, /redirectTo: siteUrl \+ "\/auth\/callback\?next=\/redefinir-senha",[\s\S]*?captchaToken: token/);
   for (const [label, page] of [["cadastro", signup], ["login", login], ["recuperação", recovery]]) {
-    assert.match(page, /cf-turnstile/, label + " sem desafio visual");
+    assert.match(page, /<TurnstileField siteKey=\{siteKey!\}/, label + " sem desafio visual");
     assert.match(page, /NEXT_PUBLIC_TURNSTILE_SITE_KEY/, label + " sem configuração do CAPTCHA");
   }
 });
@@ -67,5 +67,14 @@ test("login apresenta erros específicos de CAPTCHA sem divulgar detalhes de con
   assert.match(actions, /destination\("\/entrar", "captcha"\)/);
   assert.match(actions, /destination\("\/entrar", "credenciais"\)/);
   assert.match(login, /limite: "Muitas tentativas de acesso/);
-  assert.match(login, /Aguarde a verificação de segurança aparecer/);
+  assert.match(login, /TurnstileField siteKey=/);
+});
+
+test("Turnstile usa renderização explícita, bloqueia envio e mostra erro de carregamento", () => {
+  const widget = read("components/turnstile-field.tsx");
+  assert.match(widget, /api\\.js\\?render=explicit/);
+  assert.match(widget, /window\\.turnstile\\.render/);
+  assert.match(widget, /type="hidden" name="cf-turnstile-response" value=\\{token\\}/);
+  assert.match(widget, /type="submit" disabled=\\{!token\\}/);
+  assert.match(widget, /onError=\\{\\(\\) => setStatus\\("error"\\)\\}/);
 });

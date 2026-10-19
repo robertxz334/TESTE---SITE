@@ -72,9 +72,9 @@ test("login apresenta erros específicos de CAPTCHA sem divulgar detalhes de con
 
 test("Turnstile usa renderização explícita, bloqueia envio e mostra erro de carregamento", () => {
   const widget = read("components/turnstile-field.tsx");
-  assert.match(widget, /api\\.js\\?render=explicit/);
-  assert.match(widget, /window\\.turnstile\\.render/);
-  assert.match(widget, /type="hidden" name="cf-turnstile-response" value=\\{token\\}/);
-  assert.match(widget, /type="submit" disabled=\\{!token\\}/);
-  assert.match(widget, /onError=\\{\\(\\) => setStatus\\("error"\\)\\}/);
+  assert.match(widget, /api\.js\?render=explicit/);
+  assert.match(widget, /window\.turnstile\.render/);
+  assert.match(widget, /type="hidden" name="cf-turnstile-response" value=\{token\}/);
+  assert.match(widget, /type="submit" disabled=\{!token\}/);
+  assert.match(widget, /onError=\{\(\) => setStatus\("error"\)\}/);
 });

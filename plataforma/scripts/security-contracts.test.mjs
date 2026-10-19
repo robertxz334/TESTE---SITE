@@ -44,3 +44,18 @@ test("cadastro permanece desativado por padrão e exige CAPTCHA", () => {
   assert.match(actions, /cf-turnstile-response/);
   assert.match(actions, /captchaToken: token/);
 });
+
+
+test("CAPTCHA é exigido em cadastro, login e recuperação", () => {
+  const actions = read("app/actions.ts");
+  const login = read("app/entrar/page.tsx");
+  const signup = read("app/cadastro/page.tsx");
+  const recovery = read("app/recuperar/page.tsx");
+  assert.equal((actions.match(/const token = value\(form, "cf-turnstile-response", 3000\)/g) ?? []).length, 3);
+  assert.match(actions, /signInWithPassword\(\{ email, password, options: \{ captchaToken: token \} \}\)/);
+  assert.match(actions, /redirectTo: siteUrl \+ "\/auth\/callback\?next=\/redefinir-senha",[\s\S]*?captchaToken: token/);
+  for (const [label, page] of [["cadastro", signup], ["login", login], ["recuperação", recovery]]) {
+    assert.match(page, /cf-turnstile/, label + " sem desafio visual");
+    assert.match(page, /NEXT_PUBLIC_TURNSTILE_SITE_KEY/, label + " sem configuração do CAPTCHA");
+  }
+});

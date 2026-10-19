@@ -1,4 +1,5 @@
 import "server-only";
+type CookieWrite = { name: string; value: string; options?: Record<string, unknown> };
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 
@@ -14,8 +15,8 @@ export async function createClient() {
   return createServerClient(url, key, {
     cookies: {
       getAll() { return cookieStore.getAll(); },
-      setAll(values) {
-        try { values.forEach(({ name, value, options }) => cookieStore.set(name, value, options)); }
+      setAll(values: CookieWrite[]) {
+        try { values.forEach(({ name, value, options }) => cookieStore.set(name, value, options as Parameters<typeof cookieStore.set>[2])); }
         catch { /* Componentes de servidor não podem gravar cookies: o proxy atualiza a sessão. */ }
       },
     },

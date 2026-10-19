@@ -1,5 +1,5 @@
 import "server-only";
-type CookieWrite = { name: string; value: string; options?: Record<string, unknown> };
+type CookieWrite = { name: string; value: string; options?: unknown };
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 

@@ -60,6 +60,19 @@ begin
   return new;
 end;
 $$;
+-- A função é destinada exclusivamente ao gatilho do Auth, não à API REST.
+revoke all on function public.handle_new_auth_user() from public, anon, authenticated;
+
+-- Supabase pode ter criado este event trigger de RLS automaticamente.
+-- Evita que usuários da API executem diretamente uma SECURITY DEFINER.
+do $guard$
+begin
+  if to_regprocedure('public.rls_auto_enable()') is not null then
+    execute 'revoke all on function public.rls_auto_enable() from public, anon, authenticated';
+  end if;
+end;
+$guard$;
+
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
 after insert on auth.users for each row execute function public.handle_new_auth_user();

@@ -10,6 +10,18 @@ https://robertxz334.github.io/TESTE---SITE/
 
 Para ativar: vá a **Settings > Pages > Build and deployment**, selecione **Deploy from a branch** e configure **Branch: main** e **Folder: / (root)**. Salve e consulte a URL exibida no painel Pages. Caso a opção de publicação por branch não esteja disponível, use uma configuração compatível com a conta.
 
+## Atualização — Etapa 1 (refinamento visual)
+
+O site recebeu um novo tratamento visual nas páginas internas, uma seção especial de supervisão na home e três opções de supervisão (Individual, Grupo — Ouvinte e Grupo — Supervisionando). Todas as mensagens ainda são apenas demonstrativas.
+
+Consulte [o relatório da Etapa 1](ETAPA_1.md) para os arquivos alterados, verificações, pendências e próximos passos. Para verificar localmente os links e arquivos, utilize Node.js 22+:
+
+```bash
+node scripts/verificar-site.mjs
+```
+
+A futura plataforma com login, agendamentos e pagamentos **não está implementada nesta demo estática**. Nunca adicione chaves, registros clínicos ou dados pessoais ao repositório público.
+
 ## Conteúdo
 
 - `index.html`: landing page premium com imagens ilustrativas incorporadas

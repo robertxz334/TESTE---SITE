@@ -59,3 +59,13 @@ test("CAPTCHA é exigido em cadastro, login e recuperação", () => {
     assert.match(page, /NEXT_PUBLIC_TURNSTILE_SITE_KEY/, label + " sem configuração do CAPTCHA");
   }
 });
+
+test("login apresenta erros específicos de CAPTCHA sem divulgar detalhes de conta", () => {
+  const actions = read("app/actions.ts");
+  const login = read("app/entrar/page.tsx");
+  assert.match(actions, /error\?\.code\?\.includes\("captcha"\)/);
+  assert.match(actions, /destination\("\/entrar", "captcha"\)/);
+  assert.match(actions, /destination\("\/entrar", "credenciais"\)/);
+  assert.match(login, /limite: "Muitas tentativas de acesso/);
+  assert.match(login, /Aguarde a verificação de segurança aparecer/);
+});

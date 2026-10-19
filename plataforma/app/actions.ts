@@ -67,7 +67,14 @@ export async function signIn(form: FormData) {
   if (!goodEmail(email) || !password) destination("/entrar", "credenciais");
   const supabase = await createClient();
   const { error, data } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken: token } });
-  if (error || !data.user) destination("/entrar", "credenciais");
+  if (error || !data.user) {
+    // Não registrar e-mail, senha ou token CAPTCHA nos logs.
+    if (error) console.warn("Falha na autenticação", { code: error.code ?? "unknown", status: error.status });
+    if (error?.code?.includes("captcha")) destination("/entrar", "captcha");
+    if (error?.code === "over_request_rate_limit") destination("/entrar", "limite");
+    // Resposta genérica para evitar revelar detalhes de contas existentes.
+    destination("/entrar", "credenciais");
+  }
   const role = await getRole(supabase, data.user.id);
   if (role === "admin") redirect("/admin");
   redirect("/cliente");
